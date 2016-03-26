@@ -5,12 +5,9 @@ machine:
 dependencies:
   override:
     - docker info
-    - |
-      if [[ "$CIRCLE_BRANCH" == "master" ]]; then
-        docker build -t quay.io/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:latest .
-      else
-        docker build -t quay.io/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH} .
-      fi
+    - docker build -t mesos-base:latest .
+    - docker run -t -v $PWD:/targer mesos-base:latest cp -Rvf /mesos-tiny /target/
+    - docker build -f Dockerfile_tiny -t quay.io/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:latest .
 
 test:
   override:
