@@ -3,6 +3,7 @@ FROM quay.io/vektorcloud/base:latest
 RUN apk --no-cache add docker
 
 COPY mesos-tiny/ /
+COPY entrypoint.sh /
 
 ENV MESOS_WORK_DIR /tmp/mesos
 ENV MESOS_CONTAINERIZERS docker,mesos
