@@ -12,5 +12,5 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv E56151BF && \
 RUN dockerize --debug -n -o /mesos-tiny \
               -a /usr/lib/libmesos-0.28.0.so /usr/lib/libmesos-0.28.0.so \
               -a /usr/lib/libmesos.so /usr/lib/libmesos.so \
-              $(dpkg -L mesos | egrep '(sbin/|bin/|webui/)') && \
+              $(dpkg -L mesos | egrep '(sbin/|bin/|webui/|libexec\/mesos\/)') && \
     find /mesos-tiny -type f -exec chmod +r {} \;
