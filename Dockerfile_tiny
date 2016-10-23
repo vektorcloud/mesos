@@ -5,14 +5,18 @@ RUN apk --no-cache add docker
 COPY mesos-tiny/ /
 COPY entrypoint.sh /
 
-ENV MESOS_WORK_DIR /tmp/mesos
+ENV PATH=$PATH:/opt/mesos/bin:/opt/mesos/sbin
+
+ENV MESOS_WORK_DIR /var/mesos
+ENV MESOS_LOG_DIR /var/mesos/log
 ENV MESOS_CONTAINERIZERS docker,mesos
 # https://mesosphere.github.io/marathon/docs/native-docker.html
 ENV MESOS_EXECUTOR_REGISTRATION_TIMEOUT 5mins
 # https://issues.apache.org/jira/browse/MESOS-3793
 ENV MESOS_LAUNCHER posix
 
-VOLUME /tmp/mesos
+VOLUME /var/mesos
+
+EXPOSE 5050 5051
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/usr/sbin/mesos-slave"]
