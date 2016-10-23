@@ -5,7 +5,11 @@ MESOS_STABLE=1.0.1
 MESOS_BRANCH="${ARG:=$MESOS_STABLE}"
 DOCKER_TAG=$MESOS_BRANCH
 
-git submodule update --recursive && cd mesos-src && git checkout "$MESOS_BRANCH" && cd ..
+git submodule sync && \
+  git submodule update --init && \
+  cd mesos-src && \
+  git checkout "$MESOS_BRANCH" && \
+  cd ..
 docker build -t "mesos-base:$MESOS_BRANCH" .
 docker run -ti -v $PWD:/target "mesos-base:$MESOS_BRANCH" cp -Rvf /mesos-tiny /target/
 docker build -f Dockerfile_tiny -t "quay.io/vektorcloud/mesos:$MESOS_BRANCH" .
