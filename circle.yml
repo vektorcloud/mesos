@@ -21,4 +21,9 @@ deployment:
     branch: master
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS quay.io
-      - docker push quay.io/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
+      - |
+        PROJECT_TAG="latest"
+        if [[ "$CIRCLE_BRANCH" != "master" ]]; then
+          PROJECT_TAG="${CIRCLE_BRANCH}"
+        fi
+        docker push quay.io/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
