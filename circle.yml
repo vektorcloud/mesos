@@ -26,4 +26,4 @@ deployment:
         if [[ "$CIRCLE_BRANCH" != "master" ]]; then
           PROJECT_TAG="${CIRCLE_BRANCH}"
         fi
-        docker push quay.io/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
+        docker push quay.io/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${PROJECT_TAG}
