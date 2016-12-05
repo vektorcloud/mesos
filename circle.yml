@@ -5,16 +5,12 @@ machine:
 dependencies:
   override:
     - docker info
-    - |
-      if [[ "$CIRCLE_BRANCH" == "master" ]]; then
-        docker build -t quay.io/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:latest .
-      else
-        docker build -t quay.io/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH} .
-      fi
+    - cd lite && docker build -t .
+    - cd ../full && docker build -t full .
 
 test:
   override:
-    - docker run -t --entrypoint /bin/sh quay.io/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:latest -c 'echo'
+    - echo
 
 deployment:
   hub:
@@ -26,4 +22,9 @@ deployment:
         if [[ "$CIRCLE_BRANCH" != "master" ]]; then
           PROJECT_TAG="${CIRCLE_BRANCH}"
         fi
-        docker push quay.io/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${PROJECT_TAG}
+      - docker tag lite quay.io/vektorcloud/mesos:${PROJECT_TAG}
+      - docker tag lite quay.io/vektorcloud/mesos:${PROJECT_TAG}-lite
+      - docker tag full quay.io/vektorcloud/mesos:${PROJECT_TAG}-full
+      - docker push quay.io/vektorcloud/mesos:${PROJECT_TAG}
+      - docker push quay.io/vektorcloud/mesos:${PROJECT_TAG}-lite
+      - docker push quay.io/vektorcloud/mesos:${PROJECT_TAG}-full
