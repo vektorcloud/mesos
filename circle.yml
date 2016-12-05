@@ -6,7 +6,7 @@ dependencies:
   override:
     - docker info
     - cd lite && docker build -t lite .
-    - cd ../full && docker build -t full .
+    - cd full && docker build -t full .
 
 test:
   override:
