@@ -18,13 +18,18 @@ deployment:
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS quay.io
       - |
-        PROJECT_TAG="latest"
-        if [[ "$CIRCLE_BRANCH" != "master" ]]; then
-          PROJECT_TAG="${CIRCLE_BRANCH}"
+        if [[ "$CIRCLE_BRANCH" == "master" ]]; then
+          docker tag lite quay.io/vektorcloud/mesos:latest && \
+          docker tag lite quay.io/vektorcloud/mesos:lite && \
+          docker tag full quay.io/vektorcloud/mesos:full && \
+          docker push quay.io/vektorcloud/mesos:latest && \
+          docker push quay.io/vektorcloud/mesos:lite && \
+          docker push quay.io/vektorcloud/mesos:full
+        else 
+          docker tag lite quay.io/vektorcloud/mesos:${CIRCLE_BRANCH} && \
+          docker tag lite quay.io/vektorcloud/mesos:${CIRCLE_BRANCH}_lite && \
+          docker tag full quay.io/vektorcloud/mesos:${CIRCLE_BRANCH}_full && \
+          docker push quay.io/vektorcloud/mesos:${CIRCLE_BRANCH} && \
+          docker push quay.io/vektorcloud/mesos:${CIRCLE_BRANCH}_lite && \
+          docker push quay.io/vektorcloud/mesos:${CIRCLE_BRANCH}_full
         fi
-      - docker tag lite quay.io/vektorcloud/mesos:${PROJECT_TAG}
-      - docker tag lite quay.io/vektorcloud/mesos:${PROJECT_TAG}_lite
-      - docker tag full quay.io/vektorcloud/mesos:${PROJECT_TAG}_full
-      - docker push quay.io/vektorcloud/mesos:${PROJECT_TAG}
-      - docker push quay.io/vektorcloud/mesos:${PROJECT_TAG}_lite
-      - docker push quay.io/vektorcloud/mesos:${PROJECT_TAG}_full
