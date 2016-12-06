@@ -1,11 +1,7 @@
 #!/usr/bin/dumb-init /bin/bash
 set -e
 
-# Process Flags
-WITH_ZOOKEEPER="${WITH_ZOOKEEPER:=0}"
-WITH_MARATHON="${WITH_MARATHON:=0}"
-WITH_MESOS_MASTER="${WITH_MESOS_MASTER:=0}"
-WITH_MESOS_AGENT="${WITH_MESOS_AGENT:=0}"
+# Option Flags
 ZK_PORT="${ZK_DEFAULT_PORT:=2181}"
 
 PIDS=""
@@ -34,7 +30,7 @@ function config_master {
 }
 
 # Zookeeper
-if [ "$WITH_ZOOKEEPER" -eq 1 ]; then
+[ -n "$WITH_ZOOKEEPER" ] && {
   # Write Zookeeper Configuration
   cat /dev/null > /opt/zookeeper/conf/zoo.cfg
   for opt in $(env |grep ^ZOOKEEPER_); do
@@ -42,24 +38,24 @@ if [ "$WITH_ZOOKEEPER" -eq 1 ]; then
   done
   /opt/zookeeper/bin/zkServer.sh start-foreground &
   PIDS="$PIDS $!"
-fi
+}
 
 # Mesos Master
-if [ "$WITH_MESOS_MASTER" -eq 1 ]; then
+[ -n "$WITH_MESOS_MASTER" ] && {
   /sbin/mesos-master &
   PIDS="$PIDS $!"
-fi
+}
 
 # Mesos Agent
-if [ "$WITH_MESOS_AGENT" -eq 1 ]; then
+[ -n "$WITH_MESOS_AGENT" ] && {
   /sbin/mesos-agent &
   PIDS="$PIDS $!"
-fi
+}
 
-if [ "$WITH_MARATHON" -eq 1 ]; then
+[ -n "$WITH_MARATHON" ] && {
   /opt/marathon/bin/start &
   PIDS="$PIDS $!"
-fi
+}
 
 # Wait for all processes to complete.
 # TODO: Should script should exit if ANY process exits
