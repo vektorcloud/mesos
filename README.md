@@ -6,21 +6,13 @@
 
 ## Purpose
 
-This repository aims to maintain a Docker image with the latest stable release of Apache Mesos compiled independent of Mesosphere and DC/OS.
+This repository aims to maintain a Docker image with the latest stable release of Apache Mesos compiled independent of Mesosphere and DC/OS. 
 
-
-### Lite 
-
-The **lite** image implements base Apache Mesos without Java or Python bindings and minimal dependencies.
 
 #### Usage
 
-    docker run --net host -v /var/run/docker.sock:/var/run/docker.sock quay.io/vektorcloud/mesos:lite mesos-local
+    docker run --net host -v /var/run/docker.sock:/var/run/docker.sock quay.io/vektorcloud/mesos:latest mesos-local
 
-### Full
-
-The **full** image implements a complete Apache Mesos stack with Zookeeper, master, and agent processes.
-This image attempts to implement everything needed to run a production-grade Mesos infrastructure.
 
 #### Configuration
 

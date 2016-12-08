@@ -5,8 +5,7 @@ machine:
 dependencies:
   override:
     - docker info
-    - cd lite && docker build -t lite .
-    - cd full && docker build -t full .
+    - docker build -t mesos .
 
 test:
   override:
@@ -19,17 +18,9 @@ deployment:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS quay.io
       - |
         if [[ "$CIRCLE_BRANCH" == "master" ]]; then
-          docker tag lite quay.io/vektorcloud/mesos:latest && \
-          docker tag lite quay.io/vektorcloud/mesos:lite && \
-          docker tag full quay.io/vektorcloud/mesos:full && \
-          docker push quay.io/vektorcloud/mesos:latest && \
-          docker push quay.io/vektorcloud/mesos:lite && \
-          docker push quay.io/vektorcloud/mesos:full
+          docker tag mesos quay.io/vektorcloud/mesos:latest && \
+          docker push quay.io/vektorcloud/mesos:latest
         else 
-          docker tag lite quay.io/vektorcloud/mesos:${CIRCLE_BRANCH} && \
-          docker tag lite quay.io/vektorcloud/mesos:${CIRCLE_BRANCH}_lite && \
-          docker tag full quay.io/vektorcloud/mesos:${CIRCLE_BRANCH}_full && \
+          docker tag mesos quay.io/vektorcloud/mesos:${CIRCLE_BRANCH} && \
           docker push quay.io/vektorcloud/mesos:${CIRCLE_BRANCH} && \
-          docker push quay.io/vektorcloud/mesos:${CIRCLE_BRANCH}_lite && \
-          docker push quay.io/vektorcloud/mesos:${CIRCLE_BRANCH}_full
         fi

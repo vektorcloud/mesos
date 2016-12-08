@@ -6,30 +6,6 @@ DELAY="sleep 2"
 # Option Flags
 ZK_PORT="${ZK_DEFAULT_PORT:=2181}"
 
-# Default Options
-# Mesos Master
-export MESOS_ZK="${MESOS_ZK:=zk://localhost:2181/mesos}"
-export MESOS_QUORUM="${MESOS_QUORUM:=1}"
-export MESOS_WORK_DIR="${MESOS_WORK_DIR:=/opt/mesos}"
-
-export MESOS_MASTER="${MESOS_MASTER:=zk://localhost:2181/mesos}"
-export MESOS_CONTAINERIZERS="docker,mesos"
-# https://mesosphere.github.io/marathon/docs/native-docker.html
-export MESOS_EXECUTOR_REGISTRATION_TIMEOUT="5mins"
-# https://issues.apache.org/jira/browse/MESOS-3793
-export MESOS_LAUNCHER="posix"
-# TODO: Should update at compile time
-export MESOS_WEBUI_DIR="/share/mesos/webui"
-export MESOS_LOG_DIR="/opt/mesos/log"
-export MESOS_LOGGING_LEVEL="WARNING"
-
-# Zookeeper
-export ZOOKEEPER_tickTime="${ZOOKEEPER_tickTime:=2000}"
-export ZOOKEEPER_dataDir="${ZOOKEEPER_dataDir:=/var/run/zookeeper}"
-export ZOOKEEPER_clientPort="${ZOOKEEPER_clientPort:=2181}"
-export ZOOKEEPER_initLimit="${ZOOKEEPER_initLimit:=5}"
-export ZOOKEEPER_syncLimit="${ZOOKEEPER_syncLimit:=2}"
-
 PIDS=""
 
 # Accept an environment variable named $MASTERS
