@@ -22,5 +22,5 @@ deployment:
           docker push quay.io/vektorcloud/mesos:latest
         else 
           docker tag mesos quay.io/vektorcloud/mesos:${CIRCLE_BRANCH} && \
-          docker push quay.io/vektorcloud/mesos:${CIRCLE_BRANCH} && \
+          docker push quay.io/vektorcloud/mesos:${CIRCLE_BRANCH}
         fi
