@@ -21,21 +21,31 @@ RUN VERSION="1.1.x" && \
   cd .. && \
   tar xvf "/tmp/$PACKAGE" && \
   rm -Rvf /tmp/mesos*
-  
-# Zookeeper
-RUN VERSION="3.4.9" && \
-  PACKAGE="zookeeper-$VERSION.tar.gz" && \
-  mkdir /opt && \
-  wget "http://www-us.apache.org/dist/zookeeper/zookeeper-$VERSION/$PACKAGE" -O "/tmp/$PACKAGE" && \
-  wget "http://www-us.apache.org/dist/zookeeper/zookeeper-$VERSION/$PACKAGE.md5" -O "/tmp/$PACKAGE.md5" && \
-  cd /tmp && \
-  md5sum -c "$PACKAGE.md5" && \
-  tar xvf $PACKAGE -C /opt/ && \
-  ln -sv /opt/zookeeper-* /opt/zookeeper && \
-  rm -v /tmp/zookeeper*
 
-# Option Flags
-ENV ZK_PORT="2181"
+# Hadoop
+# Reduces image size by deleting files unrelated to 
+# hadoop distcp (which is used by Mesos Fetcher) for s3,
+# and hdfs prefixes. Can remove after 
+# https://issues.apache.org/jira/browse/MESOS-3918
+RUN VERSION="2.7.3" && \
+  PACKAGE="hadoop-$VERSION.tar.gz" && \
+  wget "http://www-us.apache.org/dist/hadoop/common/hadoop-$VERSION/$PACKAGE" -O "/tmp/$PACKAGE" && \
+  mkdir /opt && \
+  cd /opt && \
+  tar xvf /tmp/hadoop-2.7.3.tar.gz  && \
+  ln -sv /opt/hadoop-2.7.3 /opt/hadoop && \
+  rm -Rvf /tmp/* && \
+  rm -Rvf /opt/hadoop/share/doc && \
+  rm -Rvf /opt/hadoop/share/hadoop/hdfs && \
+  rm -Rvf /opt/hadoop/share/hadoop/httpfs && \
+  rm -Rvf /opt/hadoop/share/hadoop/kms && \
+  rm -Rvf /opt/hadoop/share/hadoop/yarn
+ 
+# Hadoop options 
+ENV JAVA_HOME=/usr/lib/jvm/default-jvm
+ENV HADOOP_HOME=/opt/hadoop
+ENV HADOOP_CLASSPATH="$HADOOP_HOME/share/hadoop/tools/lib/*"
+ENV PATH="$HADOOP_HOME/bin:$PATH"
 
 # Default Options
 # Mesos Master
@@ -47,7 +57,6 @@ ENV MESOS_MASTER="zk://localhost:2181/mesos"
 ENV MESOS_CONTAINERIZERS="docker,mesos"
 # https://mesosphere.github.io/marathon/docs/native-docker.html
 ENV MESOS_EXECUTOR_REGISTRATION_TIMEOUT="5mins"
-# https://issues.apache.org/jira/browse/MESOS-3793
 ENV MESOS_LAUNCHER="posix"
 # TODO: Should update at compile time
 ENV MESOS_WEBUI_DIR="/share/mesos/webui"
@@ -55,12 +64,6 @@ ENV MESOS_LOG_DIR="/opt/mesos/log"
 ENV MESOS_LOGGING_LEVEL="WARNING"
 ENV MESOS_LAUNCHER_DIR="/libexec/mesos"
 ENV MESOS_SYSTEMD_ENABLE_SUPPORT="false"
-
-ENV ZOOKEEPER_tickTime="2000"
-ENV ZOOKEEPER_dataDir="/var/run/zookeeper"
-ENV ZOOKEEPER_clientPort="2181"
-ENV ZOOKEEPER_initLimit="5"
-ENV ZOOKEEPER_syncLimit="2"
 
 COPY entrypoint.sh /
 
