@@ -32,14 +32,13 @@ RUN VERSION="2.7.3" && \
   wget "http://www-us.apache.org/dist/hadoop/common/hadoop-$VERSION/$PACKAGE" -O "/tmp/$PACKAGE" && \
   mkdir /opt && \
   cd /opt && \
-  tar xvf /tmp/hadoop-2.7.3.tar.gz  && \
-  ln -sv /opt/hadoop-2.7.3 /opt/hadoop && \
+  tar xvf "/tmp/$PACKAGE"  && \
+  ln -sv "/opt/hadoop-$VERSION" /opt/hadoop && \
   rm -Rvf /tmp/* && \
   rm -Rvf /opt/hadoop/share/doc && \
   rm -Rvf /opt/hadoop/share/hadoop/hdfs && \
   rm -Rvf /opt/hadoop/share/hadoop/httpfs && \
-  rm -Rvf /opt/hadoop/share/hadoop/kms && \
-  rm -Rvf /opt/hadoop/share/hadoop/yarn
+  rm -Rvf /opt/hadoop/share/hadoop/kms
  
 # Hadoop options 
 ENV JAVA_HOME=/usr/lib/jvm/default-jvm
