@@ -1,0 +1,43 @@
+FROM quay.io/vektorcloud/base:3.5
+
+RUN echo "@edge.testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" |tee >> /etc/apk/repositories && \
+  apk add --no-cache \
+    apr \
+    apr-dev \
+    autoconf \
+    automake \
+    boost \
+    boost-dev \
+    curl \
+    curl-dev \
+    cyrus-sasl-crammd5 \
+    cyrus-sasl-dev \
+    file \
+    fts \
+    fts-dev \
+    g++ \
+    git \
+    glog@edge.testing \
+    glog-dev@edge.testing \
+    gpgme \
+    libtool \
+    linux-headers \
+    make \
+    openjdk8 \
+    openssl \
+    patch \
+    protobuf \
+    protobuf-dev \
+    python \
+    python-dev \
+    subversion \
+    subversion-dev \
+    zlib \
+    zlib-dev && \
+    ln -sv /usr/include/locale.h /usr/include/xlocale.h
+
+ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
+
+COPY build.sh /
+
+ENTRYPOINT ["/build.sh"]

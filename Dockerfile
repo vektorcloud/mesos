@@ -1,4 +1,4 @@
-FROM quay.io/vektorcloud/base:3.4
+FROM quay.io/vektorcloud/base:3.5
 
 RUN apk --no-cache add docker \
   libstdc++ \
@@ -11,22 +11,6 @@ RUN apk --no-cache add docker \
   bash && \
   apk --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community add dumb-init
 
-# Mesos
-RUN VERSION="1.1.x" && \
-  PACKAGE="mesos-$VERSION-musl.tar.gz" && \
-  wget "https://github.com/vektorlab/mesos-packaging/releases/download/$VERSION/$PACKAGE" -O "/tmp/$PACKAGE" && \
-  wget "https://github.com/vektorlab/mesos-packaging/releases/download/$VERSION/$PACKAGE.md5" -O "/tmp/$PACKAGE.md5" && \
-  cd /tmp && \
-  md5sum -c "$PACKAGE.md5" && \
-  cd .. && \
-  tar xvf "/tmp/$PACKAGE" && \
-  rm -Rvf /tmp/mesos*
-
-# Hadoop
-# Reduces image size by deleting files unrelated to 
-# hadoop distcp (which is used by Mesos Fetcher) for s3,
-# and hdfs prefixes. Can remove after 
-# https://issues.apache.org/jira/browse/MESOS-3918
 RUN VERSION="2.7.3" && \
   PACKAGE="hadoop-$VERSION.tar.gz" && \
   wget "http://www-us.apache.org/dist/hadoop/common/hadoop-$VERSION/$PACKAGE" -O "/tmp/$PACKAGE" && \
@@ -63,6 +47,8 @@ ENV MESOS_LOG_DIR="/opt/mesos/log"
 ENV MESOS_LOGGING_LEVEL="WARNING"
 ENV MESOS_LAUNCHER_DIR="/libexec/mesos"
 ENV MESOS_SYSTEMD_ENABLE_SUPPORT="false"
+
+COPY mesos/out/usr/ /usr/
 
 COPY entrypoint.sh /
 
