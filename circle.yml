@@ -2,16 +2,11 @@ machine:
   services:
     - docker
 
-checkout:
-  post:
-    - git submodule sync
-    - git submodule update --init
-
 # Set -j 2 so we don't exceed circle's memory cap @ 4gb
 dependencies:
   override:
     - docker build -t mesos-build -f Dockerfile.build .
-    - docker run -e MESOS_CONFIG_FLAGS="--disable-java --disable-python --enable-optimize" -e MESOS_MAKE_FLAGS="-j 2" -v $PWD:/src mesos-build
+    - docker run -e MESOS_CONFIG_FLAGS="--disable-java --disable-python --enable-optimize" -e MESOS_MAKE_FLAGS="-j 2" -v $PWD/mesos:/mesos mesos-build
 
 compile:
   override:
