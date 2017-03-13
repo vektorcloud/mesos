@@ -11,8 +11,10 @@ RUN apk --no-cache add docker \
   bash && \
   apk --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community add dumb-init
 
+
 # Mesos Default Options
 ENV \ 
+  VERSION="1.2.0" \
   MESOS_ZK="zk://localhost:2181/mesos" \
   MESOS_MASTER="zk://localhost:2181/mesos" \
   MESOS_QUORUM="1" \
@@ -22,9 +24,9 @@ ENV \
   MESOS_EXECUTOR_REGISTRATION_TIMEOUT="5mins" \
   MESOS_LAUNCHER="posix" \
   MESOS_LOGGING_LEVEL="WARNING" \
-  MESOS_SYSTEMD_ENABLE_SUPPORT="false" 
+  MESOS_SYSTEMD_ENABLE_SUPPORT="false"
 
-COPY mesos/ /
+COPY mesos/mesos-$VERSION/build /
 
 COPY entrypoint.sh /
 
