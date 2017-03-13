@@ -45,7 +45,7 @@ function build_mesos {
     mkdir -v build
   }
 
-  make install DESTDIR=build
+  make install DESTDIR="$PWD/build"
   make distclean
 
 }
