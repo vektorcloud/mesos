@@ -1,6 +1,9 @@
-FROM quay.io/vektorcloud/base:3.5
+FROM quay.io/vektorcloud/base:3.4
 
-RUN echo "@edge.testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" |tee >> /etc/apk/repositories && \
+RUN echo "@edge http://dl-cdn.alpinelinux.org/alpine/edge/community" \
+  |tee >>/etc/apk/repositories && \
+  echo "@edge.testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+  |tee >> /etc/apk/repositories && \
   apk add --no-cache \
     apr \
     apr-dev \
@@ -23,11 +26,10 @@ RUN echo "@edge.testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" |tee 
     libtool \
     linux-headers \
     make \
+    maven@edge \
     openjdk8 \
     openssl \
     patch \
-    protobuf \
-    protobuf-dev \
     python \
     python-dev \
     subversion \

@@ -11,7 +11,7 @@ checkout:
 dependencies:
   override:
     - docker build -t mesos-build -f Dockerfile.build .
-    - docker run -e MESOS_CONFIG_FLAGS="--disable-java --disable-python" -e MESOS_MAKE_FLAGS="-j 2" -v $PWD:/src mesos-build
+    - docker run -e MESOS_CONFIG_FLAGS="--disable-java --disable-python --enable-optimize" -e MESOS_MAKE_FLAGS="-j 2" -v $PWD:/src mesos-build
 
 compile:
   override:
