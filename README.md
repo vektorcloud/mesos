@@ -6,14 +6,14 @@
 
 ## Purpose
 
-This repository aims to maintain a Docker image with the latest stable release of Apache Mesos compiled independent of Mesosphere and DC/OS. 
+This repository maintains a Docker image with the latest stable release of Apache Mesos compiled for Alpine.
 
 
 #### Usage
 
     docker run -ti --rm --net host -v /var/run/docker.sock:/var/run/docker.sock quay.io/vektorcloud/mesos:latest mesos-local
     # With extended privileges for the Mesos containerizer http://mesos.apache.org/documentation/latest/mesos-containerizer/
-    docker run --ti --rm --net host --privileged -e MESOS_LAUNCHER=linux -v /var/run/docker.sock:/var/run/docker.sock quay.io/vektorcloud/mesos:latest mesos-local
+    docker run --ti --rm --net host --privileged -v /sys:/sys -v /var/run/docker.sock:/var/run/docker.sock quay.io/vektorcloud/mesos:latest mesos-local
 
 
 #### Configuration
