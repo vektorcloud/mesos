@@ -9,6 +9,7 @@ RUN apk --no-cache add docker \
   openssl  \
   binutils \
   coreutils \
+  tar \
   bash && \
   apk --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community add dumb-init
 
