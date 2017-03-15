@@ -22,9 +22,10 @@ ENV \
   MESOS_LOG_DIR="/mesos/log" \
   MESOS_CONTAINERIZERS="mesos,docker" \ 
   MESOS_EXECUTOR_REGISTRATION_TIMEOUT="5mins" \
-  MESOS_LAUNCHER="posix" \
+  MESOS_LAUNCHER="linux" \
   MESOS_LOGGING_LEVEL="WARNING" \
-  MESOS_SYSTEMD_ENABLE_SUPPORT="false"
+  MESOS_SYSTEMD_ENABLE_SUPPORT="false" \
+  MESOS_ISOLATION="cgroups/cpu,cgroups/mem,cgroups/pids,namespaces/pid,filesystem/linux,docker/runtime"
 
 COPY mesos/mesos-$VERSION/build /
 
