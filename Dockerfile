@@ -8,9 +8,9 @@ RUN apk --no-cache add docker \
   openjdk8 \
   openssl  \
   binutils \
+  coreutils \
   bash && \
   apk --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community add dumb-init
-
 
 # Mesos Default Options
 ENV \ 
