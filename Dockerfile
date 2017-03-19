@@ -26,7 +26,7 @@ ENV \
   MESOS_LAUNCHER="linux" \
   MESOS_LOGGING_LEVEL="WARNING" \
   MESOS_SYSTEMD_ENABLE_SUPPORT="false" \
-  MESOS_ISOLATION="cgroups/cpu,cgroups/mem,cgroups/pids,namespaces/pid,filesystem/shared,filesystem/linux,docker/runtime" \
+  MESOS_ISOLATION="cgroups/cpu,cgroups/mem,cgroups/pids,namespaces/pid,filesystem/shared,filesystem/linux,docker/runtime,volume/sandbox_path" \
   MESOS_IMAGE_PROVIDERS="DOCKER,APPC"
 
 COPY mesos/mesos-$VERSION/build /
