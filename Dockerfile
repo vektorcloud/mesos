@@ -43,7 +43,8 @@ RUN \
     subversion-dev \
     zlib \
     zlib-dev |tee > /tmp/deps.txt \
-  && apk add --no-cache $(cat /tmp/deps.txt) \
+  && apk update \
+  && apk add $(cat /tmp/deps.txt) \
   && ln -sv /usr/include/locale.h /usr/include/xlocale.h \
   && mkdir -p /tmp/mesos \
   && cd /tmp/mesos \
@@ -55,15 +56,13 @@ RUN \
   && tar xf "$PACKAGE" \
   && cd mesos-"$VERSION" \
   && ./configure $CONFIG_FLAGS \
-  && make $MAKE_FLAGS \
-  && make install \
+  && for i in $(cat /tmp/deps.txt); do apk del $(echo $i | sed 's/@.*//'); done \
   && cd / \
-  && apk del $(cat /tmp/deps.txt) \
   && rm -rf /tmp/*
   
 # Runtime dependencies
-RUN echo docker \
-    dumb-init@edge.community \
+RUN apk add --no-cache docker \
+    dumb-init@edge \
     libstdc++ \
     subversion \
     curl \
@@ -72,9 +71,7 @@ RUN echo docker \
     binutils \
     coreutils \
     tar \
-    bash |tee > /tmp/deps.txt \
-    && apk add --no-cache $(cat /tmp/deps.txt) \
-    && rm -v /tmp/deps.txt \
+    bash \
     && mkdir -p /var/run/mesos
 
 # Mesos Default Options
