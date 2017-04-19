@@ -3,7 +3,7 @@ set -e
 
 # Libprocess MUST be able to resolve our hostname
 # Some environments such as runc don't automatically
-# specify this like Docker does. It cna also be used
+# specify this like Docker does. It can also be used
 # with the --discover-ip flag
 cat > /sbin/discover-ip <<-__EOF__ 
 #!/bin/sh
