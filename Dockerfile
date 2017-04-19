@@ -1,13 +1,10 @@
 FROM quay.io/vektorcloud/base:3.5
 
-ARG CONFIG_FLAGS="--disable-java --disable-python --enable-optimize"
-ARG MAKE_FLAGS="-j 3"
-
 ENV \
   VERSION="1.2.0" \
   BASE_URL="http://www-eu.apache.org/dist/mesos" \
-  CONFIG_FLAGS=$CONFIG_FLAGS \
-  MAKE_FLAGS=$MAKE_FLAGS
+  CONFIG_FLAGS="--disable-java --disable-python --enable-optimize" \
+  MAKE_FLAGS="-j 3"
 
 RUN \
   PACKAGE="mesos-$VERSION".tar.gz \
