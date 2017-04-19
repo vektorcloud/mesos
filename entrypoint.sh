@@ -1,20 +1,6 @@
 #!/usr/bin/dumb-init /bin/bash
 set -e
 
-PIDS=""
-
-[ -n "$WITH_MESOS_MASTER" ] && {
-  env |grep "MESOS_"
-  /sbin/mesos-master &
-  PIDS="$PIDS $!"
-}
-
-[ -n "$WITH_MESOS_AGENT" ] && {
-  env |grep "MESOS_"
-  /sbin/mesos-agent &
-  PIDS="$PIDS $!"
-}
-
 # Libprocess MUST be able to resolve our hostname
 # Some environments such as runc don't automatically
 # specify this like Docker does. It cna also be used
@@ -31,9 +17,4 @@ chmod +x /sbin/discover-ip
   echo "$(discover-ip)      $(hostname)" >> /etc/hosts
 }
 
-# Wait for all processes to complete.
-if [ "$PIDS" != "" ]; then
-  wait $PIDS
-else
-  exec "$@"
-fi
+exec "$@"
