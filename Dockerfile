@@ -56,6 +56,8 @@ RUN \
   && tar xf "$PACKAGE" \
   && cd mesos-"$VERSION" \
   && ./configure $CONFIG_FLAGS \
+  && make $MAKE_FLAGS \
+  && make install \
   && for i in $(cat /tmp/deps.txt); do apk del $(echo $i | sed 's/@.*//'); done \
   && cd / \
   && rm -rf /tmp/*
