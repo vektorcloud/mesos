@@ -1,7 +1,7 @@
 FROM quay.io/vektorcloud/base:3.6
 
 ENV \
-  VERSION="1.2.0" \
+  VERSION="1.3.0" \
   BASE_URL="http://www-eu.apache.org/dist/mesos" \
   CONFIG_FLAGS="--disable-java --disable-python --enable-optimize" \
   MAKE_FLAGS="-j 3"
