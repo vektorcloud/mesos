@@ -1,4 +1,4 @@
-FROM quay.io/vektorcloud/base:3.6
+FROM quay.io/vektorcloud/base:3.6 AS build
 
 ENV \
   VERSION="1.3.0" \
@@ -56,25 +56,26 @@ RUN \
   && tar xf "$PACKAGE" \
   && cd mesos-"$VERSION" \
   && ./configure $CONFIG_FLAGS \
-  && make $MAKE_FLAGS \
-  && make install \
-  && for i in $(cat /tmp/deps.txt); do apk del $(echo $i | sed 's/@.*//'); done \
-  && cd / \
-  && rm -rf /tmp/*
-  
-# Runtime dependencies
-RUN apk add --no-cache docker \
-    dumb-init@edge \
-    libstdc++ \
-    subversion \
-    curl \
-    fts \
-    openssl  \
-    binutils \
-    coreutils \
-    tar \
-    bash \
-    && mkdir -p /var/run/mesos
+  && make $MAKE_FLAGS 
+
+RUN cd /tmp/mesos/mesos-* \
+  && mkdir /mesos \
+  && make install  DESTDIR=/mesos
+
+FROM quay.io/vektorcloud/base:3.6
+
+RUN apk add --no-cache \
+  bash \
+  binutils \
+  coreutils \
+  curl \
+  dumb-init \
+  fts \
+  libstdc++ \
+  openssl \
+  subversion \
+  tar \
+  && mkdir -p /var/run/mesos
 
 # Mesos Default Options
 ENV \ 
@@ -83,13 +84,15 @@ ENV \
   MESOS_QUORUM="1" \
   MESOS_WORK_DIR="/var/run/mesos" \
   MESOS_LOG_DIR="/var/run/mesos/log" \
-  MESOS_CONTAINERIZERS="mesos,docker" \ 
+  MESOS_CONTAINERIZERS="mesos" \ 
   MESOS_EXECUTOR_REGISTRATION_TIMEOUT="5mins" \
   MESOS_LAUNCHER="linux" \
   MESOS_LOGGING_LEVEL="WARNING" \
   MESOS_SYSTEMD_ENABLE_SUPPORT="false" \
   MESOS_ISOLATION="cgroups/cpu,cgroups/mem,cgroups/pids,namespaces/pid,filesystem/shared,filesystem/linux,docker/runtime,volume/sandbox_path" \
   MESOS_IMAGE_PROVIDERS="DOCKER,APPC"
+
+COPY --from=build /mesos/usr/local/ /
 
 VOLUME /var/run/mesos
 
