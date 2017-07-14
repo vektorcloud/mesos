@@ -92,7 +92,7 @@ ENV \
   MESOS_ISOLATION="cgroups/cpu,cgroups/mem,cgroups/pids,namespaces/pid,filesystem/shared,filesystem/linux,docker/runtime,volume/sandbox_path" \
   MESOS_IMAGE_PROVIDERS="DOCKER,APPC"
 
-COPY --from=build /mesos/usr/local/ /
+COPY --from=build /mesos/usr/local/ /usr/local/
 
 VOLUME /var/run/mesos
 
