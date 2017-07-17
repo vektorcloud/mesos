@@ -3,8 +3,9 @@ FROM quay.io/vektorcloud/base:3.6 AS build
 ENV \
   VERSION="1.3.0" \
   BASE_URL="http://www-eu.apache.org/dist/mesos" \
-  CONFIG_FLAGS="--disable-java --disable-python --enable-optimize" \
-  MAKE_FLAGS="-j 3"
+  CONFIG_FLAGS="--disable-python --enable-optimize" \
+  MAKE_FLAGS="-j 3" \
+  JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk"
 
 RUN \
   PACKAGE="mesos-$VERSION".tar.gz \
