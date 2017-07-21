@@ -71,12 +71,14 @@ RUN apk add --no-cache \
   coreutils \
   curl \
   dumb-init \
+  docker \
   fts \
   libstdc++ \
   openssl \
   subversion \
   tar \
-  && mkdir -p /var/run/mesos
+  && mkdir -p /var/run/mesos \
+  && rm -v /usr/bin/docker-* /usr/bin/dockerd 
 
 # Mesos Default Options
 ENV \ 
@@ -85,7 +87,7 @@ ENV \
   MESOS_QUORUM="1" \
   MESOS_WORK_DIR="/var/run/mesos" \
   MESOS_LOG_DIR="/var/run/mesos/log" \
-  MESOS_CONTAINERIZERS="mesos" \ 
+  MESOS_CONTAINERIZERS="mesos,docker" \ 
   MESOS_EXECUTOR_REGISTRATION_TIMEOUT="5mins" \
   MESOS_LAUNCHER="linux" \
   MESOS_LOGGING_LEVEL="WARNING" \
