@@ -85,15 +85,13 @@ ENV \
   MESOS_ZK="zk://localhost:2181/mesos" \
   MESOS_MASTER="zk://localhost:2181/mesos" \
   MESOS_QUORUM="1" \
-  MESOS_WORK_DIR="/var/run/mesos" \
-  MESOS_LOG_DIR="/var/run/mesos/log" \
-  MESOS_CONTAINERIZERS="mesos,docker" \ 
+  MESOS_CONTAINERIZERS="mesos" \ 
   MESOS_EXECUTOR_REGISTRATION_TIMEOUT="5mins" \
-  MESOS_LAUNCHER="linux" \
+  MESOS_LAUNCHER="posix" \
   MESOS_LOGGING_LEVEL="WARNING" \
   MESOS_SYSTEMD_ENABLE_SUPPORT="false" \
-  MESOS_ISOLATION="cgroups/cpu,cgroups/mem,cgroups/pids,namespaces/pid,filesystem/shared,filesystem/linux,docker/runtime,volume/sandbox_path" \
-  MESOS_IMAGE_PROVIDERS="DOCKER,APPC"
+  MESOS_ISOLATION="posix/cpu,posix/mem" \
+  MESOS_IMAGE_PROVIDERS="APPC"
 
 COPY --from=build /mesos/usr/local/ /usr/local/
 
