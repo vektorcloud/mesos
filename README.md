@@ -1,7 +1,8 @@
 # [Apache Mesos](https://mesos.apache.org) on Alpine
 
+![circleci][circleci]
+
 [![Docker Repository on Quay](https://quay.io/repository/vektorcloud/mesos/status "Docker Repository on Quay")](https://quay.io/repository/vektorcloud/mesos)
-[![Circle CI](https://circleci.com/gh/vektorcloud/mesos.svg?style=svg)](https://circleci.com/gh/vektorcloud/mesos)
 
 ## Versions
 
@@ -37,3 +38,5 @@ You can then verify it is running by browsing to `http://localhost:5050`
 
 All configuration options are specified with environment variables. Take a look at 
 the [documentation](https://mesos.apache.org/documentation/latest/configuration/) for more details.
+
+[circleci]: https://img.shields.io/circleci/project/github/vektorcloud/mesos.svg "mesos"
