@@ -1,4 +1,4 @@
-FROM quay.io/vektorcloud/base:3.6 AS build
+FROM quay.io/vektorcloud/base:3.7 AS build
 
 ENV \
   VERSION="1.4.0" \
@@ -63,7 +63,7 @@ RUN cd /tmp/mesos/mesos-* \
   && mkdir /mesos \
   && make install  DESTDIR=/mesos
 
-FROM quay.io/vektorcloud/base:3.6
+FROM quay.io/vektorcloud/base:3.7
 
 RUN apk add --no-cache \
   bash \
