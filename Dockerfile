@@ -1,7 +1,7 @@
 FROM quay.io/vektorcloud/base:3.7 AS build
 
 ENV \
-  VERSION="1.4.0" \
+  VERSION="1.4.1" \
   BASE_URL="http://www-eu.apache.org/dist/mesos" \
   CONFIG_FLAGS="--disable-python --enable-optimize" \
   MAKE_FLAGS="-j 3" \
