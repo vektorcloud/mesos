@@ -76,9 +76,11 @@ RUN apk add --no-cache \
   libstdc++ \
   openssl \
   subversion \
-  tar \
+  libarchive-tools \
   && mkdir -p /var/run/mesos \
-  && rm -v /usr/bin/docker-* /usr/bin/dockerd 
+  && rm -v /usr/bin/docker-* /usr/bin/dockerd \
+  && cp $(which tar) $(which tar)~ \
+  && ln -sf $(which bsdtar) $(which tar)
 
 # Mesos Default Options
 ENV \ 
