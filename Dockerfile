@@ -1,7 +1,7 @@
 FROM quay.io/vektorcloud/base:3.7 AS build
 
 ENV \
-  VERSION="1.4.1" \
+  VERSION="1.6.1" \
   BASE_URL="http://www-eu.apache.org/dist/mesos" \
   CONFIG_FLAGS="--disable-python --enable-optimize" \
   MAKE_FLAGS="-j 3" \
@@ -83,17 +83,16 @@ RUN apk add --no-cache \
   && ln -sf $(which bsdtar) $(which tar)
 
 # Mesos Default Options
-ENV \ 
+ENV \
   MESOS_ZK="zk://localhost:2181/mesos" \
   MESOS_MASTER="zk://localhost:2181/mesos" \
   MESOS_QUORUM="1" \
-  MESOS_CONTAINERIZERS="mesos" \ 
+  MESOS_CONTAINERIZERS="mesos" \
   MESOS_EXECUTOR_REGISTRATION_TIMEOUT="5mins" \
   MESOS_LAUNCHER="posix" \
   MESOS_LOGGING_LEVEL="WARNING" \
   MESOS_SYSTEMD_ENABLE_SUPPORT="false" \
-  MESOS_ISOLATION="posix/cpu,posix/mem" \
-  MESOS_IMAGE_PROVIDERS="APPC"
+  MESOS_ISOLATION="posix/cpu,posix/mem" 
 
 COPY --from=build /mesos/usr/local/ /usr/local/
 
